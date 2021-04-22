@@ -1,14 +1,5 @@
 /* Your Code Here */
-
-/*
- We're giving you this function. Take a look at it, you might see some usage
- that's new and different. That's because we're avoiding a well-known, but
- sneaky bug that we'll cover in the next few lessons!
-
- As a result, the lessons for this function will pass *and* it will be available
- for you to use if you need it!
- */
- function createEmployeeRecord(array){
+function createEmployeeRecord(array){
     var employee = {firstName: array[0],
                     familyName: array[1],
                     title: array[2],
@@ -18,49 +9,59 @@
         return employee
 }
 
-function createEmployeeRecords(array){
-    array.map(createEmployeeRecord)
+let createEmployeeRecords = function(employeeRowData) {
+    return employeeRowData.map(function(row){
+        return createEmployeeRecord(row)
+    })
 }
 
 
-function createTimeInEvent(dateTimeStamp){
-    const splitStamp = dateTimeStamp.split(' ')
+let createTimeInEvent = function(dateTime) {
+    let [date, hour] = dateTime.split(' ')
     this.timeInEvents.push({
-        type: 'TimeIn',
-        hour: parseInt(splitStamp[1]),
-        date: splitStamp[0]
+        type: "TimeIn",
+        hour: parseInt(hour, 10), date
     })
     return this
 }
 
-function createTimeOutEvent(dateTimeStamp){
-    const splitStamp = dateTimeStamp.split(' ')
+let createTimeOutEvent = function(dateTime) {
+    let [date, hour] = dateTime.split(' ')
     this.timeOutEvents.push({
-        type: 'TimeOut',
-        hour: parseInt(splitStamp[1]),
-        date: splitStamp[0]
+        type: "TimeOut",
+        hour: parseInt(hour, 10), date
     })
     return this
 }
 
-function hoursWorkedOnDate(dateYMD){
-    const timeIn = this.timeInEvents.find((e) => e.date === dateYMD).hour
-    const timeOut = this.timeOutEvents.find((e) => e.date === dateYMD).hour
-    return (timeOut - timeIn)/100
+let hoursWorkedOnDate = function(date) {
+    let timeIn = this.timeInEvents.find((e) => e.date === date)
+    let timeOut = this.timeOutEvents.find((e) => e.date === date)   
+    return (timeOut.hour - timeIn.hour) / 100
 }
 
-function wagesEarnedOnDate(dateYMD){
-    return this.payPerHour * hoursWorkedOnDate.call(this, dateYMD)
+let wagesEarnedOnDate = function(date) {
+    let hoursWorked = hoursWorkedOnDate.call(this, date)
+    return hoursWorked*this.payPerHour
 }
 
-function calculatePayroll(records){
-    return records.reduce((memo, i) => {return memo + allWagesFor.call(i)}, 0)
+let calculatePayroll = function(employees){
+    return employees.reduce(function(memo, rec){
+        return memo + allWagesFor.call(rec)
+    }, 0)
 }
 
-function findEmployeeByFirstName(srcArray, first_Name){
-    return srcArray.find((record) => record.firstName === first_Name)
+let findEmployeeByFirstName = function(employeeList, firstName){
+    return employeeList.find((e => e.firstName === firstName))
 }
+/*
+ We're giving you this function. Take a look at it, you might see some usage
+ that's new and different. That's because we're avoiding a well-known, but
+ sneaky bug that we'll cover in the next few lessons!
 
+ As a result, the lessons for this function will pass *and* it will be available
+ for you to use if you need it!
+ */
 
 let allWagesFor = function () {
     let eligibleDates = this.timeInEvents.map(function (e) {
